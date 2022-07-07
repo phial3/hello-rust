@@ -34,7 +34,7 @@ include!(concat!(env!("OUT_DIR"), "/commit_id.rs"));
 async fn main() -> Result<(), Box<dyn Error>> {
     // setup_logger();
     // log::info!(
-    //     "Start arana-rust MySQL proxy, run commit_id: {} compile_time: {}",
+    //     "Start MySQL proxy, run commit_id: {} compile_time: {}",
     //     COMMIT_ID,
     //     COMPILE_TIME
     // );
@@ -75,8 +75,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     //     .value_of_os("c")
     //     .map(std::path::PathBuf::from);
 
-    let config_path =
-        PathBuf::from("/Users/dongzonglei/source_code/Github/arana-rust/src/conf/bootstrap.yaml");
+    let config_path = PathBuf::from("src/conf/bootstrap.yaml");
 
     println!("The config path is: {:?}", config_path);
 

@@ -9,7 +9,7 @@
 use bitflags::*;
 pub static MAX_PAYLOAD_LEN: usize = 16_777_215;
 pub static DEFAULT_MAX_ALLOWED_PACKET: usize = 4 * 1024 * 1024;
-pub static SERVER_VERSION: &str = "arana-rust-0.1.0";
+pub static SERVER_VERSION: &str = "myproxy-rust-0.1.0";
 pub static MIN_PROTOCOL_VERSION: u8 = 10;
 
 pub static UTF8_GENERAL_CI: u8 = 33;

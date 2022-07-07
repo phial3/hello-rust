@@ -193,7 +193,7 @@ mod tests {
     #[test]
     fn load_config() {
         let config = load(String::from(
-            "/Users/dongzonglei/source_code/Github/arana-rust/src/config/config.yaml",
+            "src/config/config.yaml",
         ));
         match config {
             Ok(content) => {

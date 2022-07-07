@@ -18,7 +18,7 @@
 kind: ConfigMap
 apiVersion: "1.0"
 metadata:
-  name: arana-config
+  name: proxy-config
 data:
   listeners:
     - protocol_type: mysql
@@ -30,7 +30,7 @@ data:
   tenants:
     - name: arana
       users:
-        - username: arana
+        - username: admin
           password: "123456"
         - username: dksl
           password: "123456"

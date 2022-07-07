@@ -31,13 +31,13 @@ impl Area for Rectangle {
     }
 }
 
-impl<i32> Debug for Circle<i32> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+impl<I32> Debug for Circle<I32> {
+    fn fmt(&self, _formator: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl <i32> Area for Circle<i32>{
+impl <I32> Area for Circle<I32>{
     fn get_area(&self) -> f32 {
         //self.radius * self.radius * 3.14
         100.0

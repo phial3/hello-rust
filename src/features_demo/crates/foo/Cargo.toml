@@ -1,8 +1,13 @@
 [package]
-name = "hello-package"
+name = "foo"
 version = "0.1.0"
-edition = "2021"
+authors = ["museun <museun@outlook.com>"]
+edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+serde = ["euclid/serde"]
+
 [dependencies]
+euclid = "0.22.1"

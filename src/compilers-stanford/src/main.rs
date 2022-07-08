@@ -1,11 +1,9 @@
-mod lexers;
-mod parse;
-#[macro_use]
-mod macros;
-mod ast;
-mod define;
 use crate::define::{KeyWord, TokenType};
-use crate::parse::{func_parser_id, func_parser_var, parser_literal, parser_operator_express, parser_semicolon, Parser, TokenScaner, parser_lparen_express, func_parser_if};
+use crate::parse::{
+    func_parser_id, func_parser_var, parser_literal,
+    parser_operator_express, parser_semicolon, Parser,
+    TokenScaner, parser_lparen_express, func_parser_if,
+};
 
 fn main() {
     let tokens = lexers::analysis();

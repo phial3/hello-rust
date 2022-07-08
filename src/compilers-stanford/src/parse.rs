@@ -6,15 +6,15 @@ use crate::lexers::Token;
 use std::collections::HashMap;
 
 #[derive(Debug)]
-pub(crate) struct TokenScaner {
+pub(crate) struct TokenScanner {
     scan_token: usize,
     curr_token: usize,
     tokens: Vec<Token>,
 }
 
-impl TokenScaner {
-    pub(crate) fn new(_tokens: Vec<Token>) -> Option<TokenScaner> {
-        let parse = TokenScaner {
+impl TokenScanner {
+    pub(crate) fn new(_tokens: Vec<Token>) -> Option<TokenScanner> {
+        let parse = TokenScanner {
             scan_token: 0,
             curr_token: 0,
             tokens: _tokens,
@@ -37,19 +37,19 @@ impl TokenScaner {
 pub struct Parser {
     statement_func_map: HashMap<&'static str, ParserStatementFunc>,
     express_func_map: HashMap<&'static str, ParserExpressFunc>,
-    scaner: TokenScaner,
+    scanner: TokenScanner,
 }
 
 pub(crate) type ParserExpressFunc =
-    fn(_: &mut Parser, leftE: Option<Box<dyn E>>) -> Option<Box<dyn E>>;
+    fn(_: &mut Parser, left_e: Option<Box<dyn E>>) -> Option<Box<dyn E>>;
 pub(crate) type ParserStatementFunc = fn(_: &mut Parser) -> Option<Box<dyn S>>;
 
 impl Parser {
-    pub(crate) fn new(scanner: TokenScaner) -> Self {
+    pub(crate) fn new(scanner: TokenScanner) -> Self {
         Parser {
             statement_func_map: hashmap!(),
             express_func_map: hashmap!(),
-            scaner: scanner,
+            scanner: scanner,
         }
     }
     pub(crate) fn register_statement(&mut self, token_type: KeyWord, func: ParserStatementFunc) {

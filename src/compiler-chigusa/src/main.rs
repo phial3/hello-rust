@@ -1,5 +1,3 @@
-mod err_disp;
-mod opt;
 use chigusa::c0::lexer;
 use failure::Fail;
 use opt::{EmitOption, ParserConfig};

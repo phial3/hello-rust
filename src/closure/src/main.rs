@@ -3,11 +3,16 @@ fn call(f: fn()) {
     f();
 }
 
+fn size_of<T>(_: &T) -> usize {
+    std::mem::size_of::<T>()
+}
+
+
 fn main() {
     let a = 1;
 
     let f = || println!("abc"); // anonymous function 函数指针
-    let c = || println!("{}", &a);  // closure 闭包
+    let _c = || println!("{}", &a);  // closure 闭包
 
     call(f);
     //call(c);
@@ -37,6 +42,4 @@ fn main() {
     assert_eq!(size_of(&c), 16);
 }
 
-fn size_of<T>(_: &T) -> usize {
-    std::mem::size_of::<T>()
-}
+

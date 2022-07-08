@@ -1,0 +1,5 @@
+[jobs.mdarray]
+
+image = { source = "dockerfile", path = "." }
+
+run = ["cargo run $input $ir"]

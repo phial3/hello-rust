@@ -1,0 +1,45 @@
+name: Deploy GitHub Pages
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          # mdbook-version: '0.4.1'
+          mdbook-version: 'latest'
+
+      - name: setup wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: build c0 book
+        run: mdbook build
+        working-directory: ./docs
+
+      - name: build c0 web
+        run: |
+          mkdir -p static/fonts
+          wget https://github.com/be5invis/Iosevka/releases/download/v4.0.0-alpha.1/webfont-iosevka-4.0.0-alpha.1.zip -O iosevka.zip
+          7z x iosevka.zip static/fonts/
+          yarn && yarn build
+        working-directory: ./web
+
+      - name: combine build results
+        run: |
+          mkdir web-dist
+          cp -r ./docs/book/* web-dist
+          mkdir -p web-dist/playground
+          cp -r ./web/dist/* web-dist/playground
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web-dist
+          cname: c0.karenia.cc

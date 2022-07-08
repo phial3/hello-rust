@@ -1,0 +1,85 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: 
+      - main 
+      - master
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Environment
+      run:  rustup override set nightly
+    - name: Run tests
+      run:  |
+        cargo test
+        cargo build
+    - name: algorithm_test
+      run: |    
+        cd test/algorithm
+        cp ../../src/io.c ./io.c
+        echo "test for algorithm"
+        for file in `ls`
+        do
+          if [[ $file =~ ".c" ]] && [ $file != "io.c" ];
+          then
+            ../../target/debug/main $file
+            echo "================"$file"================"
+            cat input.txt | ./a.out | diff - output.txt
+          fi
+        done
+    - name: with_output_test
+      run: |       
+        cd test/with_output
+        cp ../../src/io.c ./io.c
+        echo "test for with_output"
+        for file in `ls`
+        do
+          if [[ $file =~ ".c" ]] && [ $file != "io.c" ];
+          then
+            ../../target/debug/main $file
+            echo "================"$file"================"
+            ./a.out | diff - `echo $file | sed 's/\.c//'`_out.txt
+          fi
+        done
+    - name: wrong_test
+      run: | 
+        echo "test for wrong"
+        cd test/wrong
+        cp ../../src/io.c ./io.c
+        for file in `ls`
+        do
+          if [[ $file =~ ".c" ]] && [ $file != "io.c" ];
+          then
+            echo "================"$file"================"
+            if ../../target/debug/main $file;then 
+              echo "wrong"
+              exit 1
+            else
+              echo "right"
+            fi
+          fi
+        done
+    - name: ok_test
+      run: | 
+        echo "test for ok"
+        cd test/ok
+        cp ../../src/io.c ./io.c
+        for file in `ls`
+        do
+          if [[ $file =~ ".c" ]] && [ $file != "io.c" ];
+          then
+            echo "================"$file"================"
+            if ../../target/debug/main $file;then 
+              echo "right"
+            else
+              echo "wrong"
+              exit 1
+            fi
+          fi
+        done

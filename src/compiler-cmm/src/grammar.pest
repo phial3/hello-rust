@@ -1,0 +1,102 @@
+// https://pest.rs/book/grammars/peg.html
+// https://pest.rs/book/grammars/syntax.html
+
+program = {SOI ~ (var_declaration | func_declaration)* ~ EOI}
+
+var_declaration = {(type_spec ~ id ~ ("[" ~ int_literal ~ "]")? ~ ";")} 
+
+func_declaration = {type_spec ~ id ~ params ~ block_stmt}
+    params = {"(" ~ param? ~ ("," ~ param)*  ~ ")"}
+    param = {type_spec ~ id ~ pointer?}
+    pointer = @{"[" ~ "]"}
+
+block_stmt = {"{" ~ (var_declaration *) ~ (statement *) ~ "}"}        
+statement = {expression_stmt | selection_stmt | iteration_stmt | return_stmt | block_stmt}
+    expression_stmt = {(expression ~ ";") | ";"}
+    selection_stmt = {("if" ~ "(" ~ expression ~ ")" ~ statement ~ ("else" ~ statement)?)}
+    iteration_stmt = {"while" ~ "(" ~ expression ~ ")" ~ statement}
+    return_stmt = {("return" ~ ";") | ("return" ~ expression ~ ";")}
+        
+expression = {assignment_expr | logic_or_expr}
+
+assignment_expr = {var ~ assign_simple ~ expression}
+unary_expr = {bracket_expr | call_expr | var | int_literal}
+multiplicative_expr = {unary_expr ~ ((op_mul | op_div| op_mod) ~ unary_expr)*}
+additive_expr = {multiplicative_expr ~ ((op_add | op_sub) ~ multiplicative_expr)*}
+shift_expr = {additive_expr ~ ((op_lshift | op_rshift) ~ additive_expr)*}
+cmp_expr = {shift_expr ~ ((op_ge | op_le | op_gt | op_lt)  ~ shift_expr)*}
+equlity_expr = {cmp_expr ~ ((op_eq | op_ne) ~ cmp_expr)*}
+bit_and_expr = {equlity_expr ~ ((op_bit_and) ~ equlity_expr)*}
+bit_xor_expr = {bit_and_expr ~ ((op_bit_xor) ~ bit_and_expr)*}
+bit_or_expr = {bit_xor_expr ~ ((op_bit_or) ~ bit_xor_expr)*}
+logic_and_expr = {bit_or_expr ~ ((op_and) ~ bit_or_expr)*}
+logic_or_expr = {logic_and_expr ~ ((op_or) ~ logic_and_expr)*}
+
+var = {id ~ ("[" ~ expression ~ "]")?}
+bracket_expr = {"(" ~ expression ~")"}
+call_expr = {id ~ "(" ~ args ~ ")"}
+args = {expression? ~("," ~ expression)*}
+id = @{!keyword ~ ((ASCII_ALPHA | "_") ~ (ASCII_ALPHA | "_" | ASCII_DIGIT)*)}
+
+// tokens
+// type token
+type_spec = {int | void}
+int = {"int"}
+void = {"void"}
+// operation token
+op_mul = {"*"}
+op_div = {"/"}
+op_mod = {"%"}
+op_add = {"+"}
+op_sub = {"-"}
+op_lshift = {"<<"}
+op_rshift = {">>"}
+op_ge = {">="}
+op_le = {"<="}
+op_gt = {">"}
+op_lt = {"<"}
+op_eq = {"=="}
+op_ne = {"!="}
+op_bit_and = {"&"}
+op_bit_or = {"|"}
+op_bit_xor = {"^"}
+op_and = {"&&"}
+op_or = {"||"}
+
+assign_simple = {"="}
+// literal
+int_literal = { bin_literal | hex_literal | oct_literal | dec_literal }
+dec_literal = @{ "0" | ASCII_NONZERO_DIGIT ~ ASCII_DIGIT* }
+bin_literal = @{ ^"0b" ~ ASCII_BIN_DIGIT+ }
+oct_literal = @{ ^"0o" ~ ASCII_OCT_DIGIT+ }
+hex_literal = @{ ^"0x" ~ ASCII_HEX_DIGIT+ }
+// keyword
+keyword = {
+    "char" |
+    "bool" |
+    "true" |
+    "false" |
+    "char" |
+    "short" |
+    "double" |
+    "float" |
+    "long" |
+    "unsigned" |
+    "int" |
+    "void" |
+    "return" |
+    "break" |
+    "if" |
+    "else" |
+    "continue" |
+    "while" |
+    "for" |
+    "do"
+}
+
+WHITESPACE = _{ " " | "\n" | "\r" | "\t" }
+COMMENT = _{
+    ("/*" ~ (!"*/" ~ ANY)* ~ "*/") // Block comment
+    | ("//" ~ (!"\n" ~ ANY)* ~ ("\n" | EOI)) // Line comment
+}
+

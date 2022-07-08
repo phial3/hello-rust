@@ -1,0 +1,20 @@
+
+
+# Added by cargo
+
+/target
+
+# Test files
+
+test.c
+test.ll
+answer
+answer.ll
+libsysy.c
+libsysy.h
+lib.ll
+test_out.ll
+
+# vscode
+
+.vscode

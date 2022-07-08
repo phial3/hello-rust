@@ -1,0 +1,42 @@
+iosevka-font = 'Iosevka Extended', 'IBM Plex Mono', 'Roboto Mono', 'SF Mono', 'Consolas', monospace
+
+.editor-space {
+    width: 60%
+}
+
+.result-space {
+    width: 40%
+    overflow: auto
+    scroll-behavior: auto
+}
+
+.app {
+    display: flex
+    flex-direction: row
+    align-self: stretch
+}
+
+.app,
+#app-root,
+html,
+body {
+    padding: 0
+    margin: 0
+    height: 100%
+}
+
+html {
+    overflow: hidden
+    font-family: iosevka-font
+}
+
+.ace-editor,
+.ace_editor,
+.ace_placeholder,
+pre {
+    font-family: iosevka-font
+}
+
+input {
+    font: inherit
+}

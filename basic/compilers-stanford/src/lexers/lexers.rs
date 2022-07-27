@@ -1,8 +1,11 @@
-use crate::define::{TokenType, CODE};
 use regex::Regex;
 
-use crate::define::TokenType::{ASSIGN, ASTERISK, EOF, ID, KEYWORDS, LPAREN, MINUS, NUM, PLUS, RPAREN, SEMICOLON, SLASH, LBRACES, RBRACES};
-use crate::{is_blank, is_digit, is_keywords, is_letter, is_new_line, is_valid_id , is_operator};
+use crate::define::define::TokenType::{
+    ASSIGN, ASTERISK, EOF, ID, KEYWORDS, LPAREN, MINUS, NUM,
+    PLUS, RPAREN, SEMICOLON, SLASH, LBRACES, RBRACES,
+};
+use crate::{is_blank, is_digit, is_keywords, is_letter, is_new_line, is_valid_id, is_operator};
+use crate::define::define::{CODE, TokenType};
 
 #[derive(Debug, Eq, PartialEq)]
 enum S {
@@ -19,6 +22,7 @@ pub struct Token {
     pub t_type: TokenType,
     pub literal: &'static str,
 }
+
 impl Token {
     fn form(cur_line: i32, _type: TokenType, _literal: &'static str) -> Self {
         Token {
@@ -51,7 +55,7 @@ pub fn analysis() -> Vec<Token> {
                         state = S::Done;
                     } else if is_letter!(char) {
                         state = S::ID;
-                    } else if is_operator!(&char){
+                    } else if is_operator!(&char) {
                         state = S::Operator;
                     } else if char == ";" {
                         tokens.push(Token::form(cur_line, SEMICOLON, ";"));
@@ -63,7 +67,7 @@ pub fn analysis() -> Vec<Token> {
                     } else if char == ")" {
                         tokens.push(Token::form(cur_line, RPAREN, ")"));
                         state = S::Done;
-                    }else if char == "{" {
+                    } else if char == "{" {
                         tokens.push(Token::form(cur_line, LBRACES, "{"));
                         state = S::Done;
                     } else if char == "}" {
@@ -97,10 +101,10 @@ pub fn analysis() -> Vec<Token> {
                     }
                 }
                 S::Operator => {
-                    if is_operator!(&char){
+                    if is_operator!(&char) {
                         state = S::Operator;
-                    }else{
-                        tokens.push(Token::form(cur_line, ID, &CODE.clone()[index ..lookup -1]));
+                    } else {
+                        tokens.push(Token::form(cur_line, ID, &CODE.clone()[index..lookup - 1]));
                         lookup -= 1;
                         state = S::Done;
                     }

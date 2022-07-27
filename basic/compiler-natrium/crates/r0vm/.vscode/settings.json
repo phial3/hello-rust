@@ -1,6 +1,6 @@
 {
     "rust-analyzer.cargo.features": [
-        "llvm9",
+        "llvm14",
         "test"
     ]
 }

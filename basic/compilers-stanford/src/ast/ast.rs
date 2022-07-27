@@ -1,8 +1,8 @@
-use crate::define::{NType, TokenType};
 use std::fmt::{Display, Formatter};
+use crate::define::define::{NType, TokenType};
 
-pub(crate) trait E: Display {}
-pub(crate) trait S: Display {}
+pub trait E: Display {}
+pub trait S: Display {}
 
 pub(crate) struct VarStatements {
     pub(crate) m_type: NType,

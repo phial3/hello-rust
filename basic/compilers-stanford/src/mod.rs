@@ -1,7 +1,6 @@
-mod lexers;
-mod parse;
+pub mod ast;
+pub mod define;
+pub mod lexers;
 #[macro_use]
-mod macros;
-mod ast;
-mod define;
-
+pub mod macros;
+pub mod parse;

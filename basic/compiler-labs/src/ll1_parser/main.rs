@@ -1,5 +1,3 @@
-mod cfg;
-
 #[derive(Debug)]
 enum Token {
     Add,

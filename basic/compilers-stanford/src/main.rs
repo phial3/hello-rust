@@ -6,7 +6,7 @@ use crate::parse::{
 };
 
 fn main() {
-    let tokens = lexers::analysis();
+    let tokens = crate::lexers::analysis();
     let token_scanner = TokenScaner::new(tokens).unwrap();
     let mut parser = Parser::new(token_scanner);
     parser.register_statement(KeyWord::VAR, func_parser_var);

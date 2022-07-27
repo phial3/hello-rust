@@ -1,8 +1,23 @@
-[package]
-name = "basic"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = [
+    "chat",
+    "clap",
+    "compiler-calcium",
+    "compiler-chigusa",
+    "compiler-cmm",
+    "compiler-labs",
+    "compilers-stanford",
+    "complex-num",
+    "concurrency_demo",
+    "features_exam",
+    "hello_rpc",
+    "helloworld-tonic",
+    "my-redis",
+    "practice",
+    "rust_grpc_demo",
+    "sql_parser",
+    "structopt",
+    "thread_local",
+    "tokio_read_file"
+]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]

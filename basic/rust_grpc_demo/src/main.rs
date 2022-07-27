@@ -3,9 +3,8 @@ use tonic::{transport::Server, Request, Response, Status};
 use bookstore::bookstore_server::{Bookstore, BookstoreServer};
 use bookstore::{GetBookRequest, GetBookResponse};
 
-
 mod bookstore {
-    include!("bookstore.rs");
+    include!("../proto/bookstore.rs");
 }
 
 #[derive(Default)]

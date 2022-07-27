@@ -69,7 +69,7 @@ impl Parser {
 
     pub(crate) fn exec(&mut self) {
         loop {
-            let token = self.scaner.next_token().unwrap();
+            let token = self.scanner.next_token().unwrap();
             if token.t_type == EOF {
                 break;
             }
@@ -95,7 +95,7 @@ pub(crate) fn func_parser_var(parser: &mut Parser) -> Option<Box<dyn S>> {
         init: None,
     };
     _statment.identifier = func_parser_id(parser, None);
-    let assign_token = parser.scaner.next_token().unwrap();
+    let assign_token = parser.scanner.next_token().unwrap();
     if assign_token.t_type != TokenType::ASSIGN {
         panic!(
             "友情提示:行:{} 期望 '=' 找到 '{}'!",
@@ -133,7 +133,7 @@ pub(crate) fn parser_operator_express(
         operator: "".to_string(),
         right: None,
     };
-    let token = parser.scaner.next_token().unwrap();
+    let token = parser.scanner.next_token().unwrap();
     let token_priority = token.t_type.precedence();
     _express.operator = String::from(token.literal);
     _express.right = parser_express(parser, token_priority);
@@ -142,11 +142,11 @@ pub(crate) fn parser_operator_express(
 
 pub(crate) fn parser_express(parser: &mut Parser, precedence: i32) -> Option<Box<dyn E>> {
     let left_express = parser
-        .get_express(parser.scaner.peek().unwrap().t_type)
+        .get_express(parser.scanner.peek().unwrap().t_type)
         .unwrap();
     let mut left_t = left_express(parser, None);
     loop {
-        match parser.scaner.peek() {
+        match parser.scanner.peek() {
             None => break,
             Some(token) => {
                 if token.t_type.precedence() <= precedence {
@@ -166,13 +166,13 @@ pub(crate) fn parser_semicolon(_: &mut Parser, left_e: Option<Box<dyn E>>) -> Op
 
 pub(crate) fn parser_literal(parser: &mut Parser, _: Option<Box<dyn E>>) -> Option<Box<dyn E>> {
     let mut literal = Literal::new();
-    let token = parser.scaner.next_token().unwrap();
+    let token = parser.scanner.next_token().unwrap();
     literal.value = String::from(token.literal);
     Some(Box::new(literal))
 }
 
 pub(crate) fn func_parser_id(parser: &mut Parser, _: Option<Box<dyn E>>) -> Option<Box<dyn E>> {
-    let token = parser.scaner.next_token().unwrap();
+    let token = parser.scanner.next_token().unwrap();
     if token.t_type != TokenType::ID {
         panic!("友情提示:行:{} 变量名错误啦!", token.line)
     }
@@ -185,8 +185,8 @@ pub(crate) fn func_parser_id(parser: &mut Parser, _: Option<Box<dyn E>>) -> Opti
 
 pub(crate) fn parser_lparen_express(parser: &mut Parser, _: Option<Box<dyn E>>) -> Option<Box<dyn E>> {
     let _express = parser_express(parser,0);
-    if parser.scaner.next_token().unwrap().t_type != TokenType::RPAREN{
-        panic!("友情提示:行: 期望 ')' 找到 '{}' !",parser.scaner.peek().unwrap().literal)
+    if parser.scanner.next_token().unwrap().t_type != TokenType::RPAREN{
+        panic!("友情提示:行: 期望 ')' 找到 '{}' !",parser.scanner.peek().unwrap().literal)
     }
     _express
 }

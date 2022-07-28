@@ -11,13 +11,16 @@ members = [
     "concurrency_demo",
     "features_exam",
     "hello_rpc",
-    "helloworld-tonic",
+    "hello-tonic",
+    "hello-hyper",
+    "hello-tokio",
+    "hello-proto",
+    "hello-ntex",
     "my-redis",
     "practice",
-    "rust_grpc_demo",
+    "grpc_demo",
     "sql_parser",
     "structopt",
     "thread_local",
-    "tokio_read_file"
 ]
 

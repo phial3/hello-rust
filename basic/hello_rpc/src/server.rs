@@ -1,7 +1,7 @@
 use grpc::Server;
-use hello::say_server::{Say, SayServer};
-use hello::{SayRequest, SayResponse};
 use tonic::{transport::Server as OtherServer, Request, Response, Status};
+use hello_rpc::hello::{SayRequest, SayResponse};
+use hello_rpc::hello_grpc::{Say, SayServer};
 
 // defining a struct for our service
 #[derive(Default)]

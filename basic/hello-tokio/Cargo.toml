@@ -1,5 +1,5 @@
 [package]
-name = "tokio_read_file"
+name = "hello-tokio"
 version = "0.1.0"
 edition = "2021"
 

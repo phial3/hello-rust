@@ -17,7 +17,7 @@
 #![allow(trivial_casts)]
 #![allow(unused_imports)]
 #![allow(unused_results)]
-//! Generated file from `proto/hello.proto`
+//! Generated file from `hello.proto`
 
 /// Generated files are compatible only with the same version
 /// of protobuf runtime.
@@ -342,10 +342,10 @@ impl ::protobuf::reflect::ProtobufValue for SayResponse {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n\x11proto/hello.proto\x12\x05hello\"\x20\n\nSayRequest\x12\x12\n\x04na\
-    me\x18\x01\x20\x01(\tR\x04name\"'\n\x0bSayResponse\x12\x18\n\x07message\
-    \x18\x01\x20\x01(\tR\x07message24\n\x03Say\x12-\n\x04Send\x12\x11.hello.\
-    SayRequest\x1a\x12.hello.SayResponseb\x06proto3\
+    \n\x0bhello.proto\x12\x05hello\"\x20\n\nSayRequest\x12\x12\n\x04name\x18\
+    \x01\x20\x01(\tR\x04name\"'\n\x0bSayResponse\x12\x18\n\x07message\x18\
+    \x01\x20\x01(\tR\x07message24\n\x03Say\x12-\n\x04Send\x12\x11.hello.SayR\
+    equest\x1a\x12.hello.SayResponseb\x06proto3\
 ";
 
 static file_descriptor_proto_lazy: ::protobuf::rt::LazyV2<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::rt::LazyV2::INIT;

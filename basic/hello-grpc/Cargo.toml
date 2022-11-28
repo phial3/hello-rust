@@ -1,8 +1,12 @@
 [package]
-name = "hello_rpc"
+name = "hello-grpc"
 version = "0.1.0"
 edition = "2021"
 build = "build.rs"
+include = [
+    "./src/**",
+    "./protos/**"
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -18,14 +22,17 @@ path = "src/client.rs"
 
 [dependencies]
 httpbis = { git = "https://github.com/stepancheg/rust-http2" }
-grpc ="0.8.3"
-grpc-protobuf="0.8.3"
-protobuf = "2"
-tonic = "0.7.1"
-tokio = { version = "1.18.2", features = ["macros", "rt-multi-thread"] }
-prost = "0.10.*"
+protobuf = "3"
+tonic = "0.8.2"
+serde = {version = "1.0.84", features = ["derive"]}
+serde_json = "1.0.78"
+tokio = { version = "1.20.2", features = ["macros", "rt-multi-thread"] }
+llvm-sys = "150"
+llvmenv = "0.3.2"
 
 [build-dependencies]
-protoc-rust-grpc = "0.8.3"
+protobuf = "3"
+protobuf-codegen = "3"
+protoc-bin-vendored = "3"
 
 

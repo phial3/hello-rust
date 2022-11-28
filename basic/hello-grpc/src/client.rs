@@ -1,5 +1,4 @@
-use hello_rpc::hello::{SayRequest, SayResponse};
-use hello_rpc::hello_grpc::SayClient;
+use hello_rpc::hello::{HelloService, SayRequest, SayResponse};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,17 +8,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
 
     // creating gRPC client from channel
-    let mut client = SayClient::new(channel);
+    let mut client = HelloServiceClient::new(channel);
 
     // creating a new Request
     let request = tonic::Request::new(SayRequest {
         name: String::from("anshul"),
-        unknown_fields: Default::default(),
-        cached_size: ()
+        special_fields: Default::default(),
     });
 
     // sending request and waiting for response
     let response = client.send(request).await?.into_inner();
-    println!("RESPONSE={:?}", response);
+    println!("response={:?}", response);
     Ok(())
 }

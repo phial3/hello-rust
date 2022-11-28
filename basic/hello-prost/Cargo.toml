@@ -1,0 +1,19 @@
+[package]
+name = "hello-prost"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "person"
+path = "src/person.rs"
+
+[dependencies]
+prost = "0.11"
+bytes = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[build-dependencies]
+prost-build = "0.11"

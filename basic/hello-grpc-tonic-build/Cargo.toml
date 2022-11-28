@@ -1,5 +1,5 @@
 [package]
-name = "grpc_demo"
+name = "hello-grpc-tonic-build"
 version = "0.1.0"
 edition = "2021"
 build = "build.rs"

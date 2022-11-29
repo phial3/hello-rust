@@ -1,6 +1,6 @@
 use tonic::{Request, Response, Status, transport::Server as OtherServer};
 use tonic::transport::Server;
-use hello_rpc::hello::{HelloService, SayRequest, SayResponse};
+use hello_rpc::protos::{HelloService, SayRequest, SayResponse, HelloServiceImpl, HelloServiceServer};
 
 // defining a struct for our service
 #[derive(Default)]

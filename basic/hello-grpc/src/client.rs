@@ -1,4 +1,4 @@
-use hello_rpc::hello::{HelloService, SayRequest, SayResponse};
+use hello_rpc::protos::{HelloService, SayRequest, SayResponse, HelloServiceClient};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

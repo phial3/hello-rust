@@ -10,7 +10,7 @@ members = [
 #    "complex-num",
     "concurrency_demo",
     "features_exam",
-#    "hello-grpc",
+    "hello-grpc",
     "hello-tonic",
     "hello-hyper",
     "hello-tokio",

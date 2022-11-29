@@ -45,6 +45,49 @@
    $ rustup install nightly
    ```
 
+## rust 镜像源配置
+
+字节跳动 Rust 镜像源以及安装rust
+
+地址：https://rsproxy.cn/
+
+1. 字节跳动 `crates.io` 镜像源
+   `vim ~/.cargo/config`
+
+```toml
+[source.crates-io]
+replace-with = 'rsproxy'
+
+[source.rsproxy]
+registry = "https://rsproxy.cn/crates.io-index"
+
+[registries.rsproxy]
+index = "https://rsproxy.cn/crates.io-index"
+
+[net]
+git-fetch-with-cli = true
+```
+
+2. Rustup 镜像
+
+   `~/.zshrc` 或者` ~/.bashrc`
+
+`vim ~/.bashrc`
+
+```shell
+export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
+```
+
+`source ~/.bashrc`
+
+3. 安装Rust
+
+```
+curl --proto '=https' --tlsv1.2 -sSf https://rsproxy.cn/rustup-init.sh | sh      
+```
+
+
 ## rustup 管理
 ### 升级
 

@@ -1,23 +1,26 @@
-use hello_rpc::protos::{HelloService, SayRequest, SayResponse, HelloServiceClient};
+use hello_grpc::todo::{CreateTodoRequest, todo_client::TodoClient};
+
+use crate::todo::{CreateTodoRequest, todo_client::TodoClient};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // creating a channel ie connection to server
-    let channel = tonic::transport::Channel::from_static("http://[::1]:50051")
-        .connect()
-        .await?;
+    let mut client = TodoClient::connect("http://0.0.0.0:50051").await?;
 
-    // creating gRPC client from channel
-    let mut client = HelloServiceClient::new(channel);
+    let request = tonic::Request::new(());
 
-    // creating a new Request
-    let request = tonic::Request::new(SayRequest {
-        name: String::from("anshul"),
-        special_fields: Default::default(),
+    let response = client.get_todos(request).await?;
+
+    println!("{:?}", response.into_inner().todos);
+
+    let create_request = tonic::Request::new(CreateTodoRequest {
+        name: "test name".to_string(),
+        description: "test description".to_string(),
+        priority: 1,
     });
 
-    // sending request and waiting for response
-    let response = client.send(request).await?.into_inner();
-    println!("response={:?}", response);
+    let create_response = client.create_todo(create_request).await?;
+
+    println!("{:?}", create_response.into_inner().todo);
+
     Ok(())
 }

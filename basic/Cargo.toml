@@ -16,7 +16,6 @@ members = [
     "hello-tokio",
     "hello-ntex",
     "hello-axum",
-#    "my-redis",
     "practice",
     "hello-grpc-tonic-build",
     "sql_parser",

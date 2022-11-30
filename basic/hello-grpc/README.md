@@ -11,5 +11,7 @@ cargo install grpcio-compiler
 
 protoc --rust_out=. *.proto
 protoc --rust-grpc_out=. *.proto
+
+## grpcio
 protoc --rust_out=. --grpc_out=. --plugin=protoc-gen-grpc=`which grpc_rust_plugin`
 ```

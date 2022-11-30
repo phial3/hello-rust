@@ -1,36 +1,64 @@
-use tonic::{Request, Response, Status, transport::Server as OtherServer};
+use std::sync::Mutex;
+
 use tonic::transport::Server;
-use hello_rpc::protos::{HelloService, SayRequest, SayResponse, HelloServiceImpl, HelloServiceServer};
 
-// defining a struct for our service
-#[derive(Default)]
-pub struct HelloServiceImpl {}
+use hello_grpc::todo::{
+    CreateTodoRequest,
+    CreateTodoResponse, GetTodosResponse, todo_server::{Todo, TodoServer}, TodoItem,
+};
 
-// implementing rpc for service defined in .proto
+#[derive(Debug, Default)]
+pub struct TodoService {
+    todos: Mutex<Vec<TodoItem>>,
+}
+
 #[tonic::async_trait]
-impl HelloService for HelloServiceImpl {
-    // rpc impelemented as function
-    async fn say(&self, request: Request<SayRequest>) -> Result<Response<SayResponse>, Status> {
-        // returning a response as SayResponse message as defined in .proto
-        Ok(Response::new(SayResponse {
-            // reading data from request which is awrapper around our SayRequest message defined in .proto
-            message: format!("hello {}", request.get_ref().name),
-            special_fields: Default::default(),
-        }))
+impl Todo for TodoService {
+    async fn get_todos(
+        &self,
+        _: tonic::Request<()>,
+    ) -> Result<tonic::Response<GetTodosResponse>, tonic::Status> {
+        let message = GetTodosResponse {
+            todos: self.todos.lock().unwrap().to_vec(),
+        };
+
+        Ok(tonic::Response::new(message))
+    }
+
+    async fn create_todo(
+        &self,
+        request: tonic::Request<CreateTodoRequest>,
+    ) -> Result<tonic::Response<CreateTodoResponse>, tonic::Status> {
+        let payload = request.into_inner();
+
+        let todo_item = TodoItem {
+            name: payload.name,
+            description: payload.description,
+            priority: payload.priority,
+            completed: false,
+        };
+
+        self.todos.lock().unwrap().push(todo_item.clone());
+
+        let message = CreateTodoResponse {
+            todo: Some(todo_item),
+            status: true,
+        };
+
+        Ok(tonic::Response::new(message))
     }
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // defining address for our service
-    let addr = "[::1]:50051".parse().unwrap();
-    // creating a service
-    let hello_service = HelloServiceImpl::default();
-    println!("Server listening on {}", addr);
-    // adding our service to our server.
+    let addr = "0.0.0.0:50051".parse().unwrap();
+    let todo_service = TodoService::default();
+
+    println!("server start at {:?}", addr);
     Server::builder()
-        .add_service(HelloServiceServer::new(hello_service))
+        .add_service(TodoServer::new(todo_service))
         .serve(addr)
         .await?;
+
     Ok(())
 }

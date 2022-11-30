@@ -1,4 +1,3 @@
-pub mod protos {
-    include!("../protos/hello.rs");
-    include!("../protos/hello_grpc.rs");
+pub mod todo {
+    tonic::include_proto!("todo");
 }
